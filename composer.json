@@ -1,0 +1,35 @@
+{
+  "name": "sahilr2050/yii2-redactor-s3",
+  "description": "Extension redactor for Yii2 Framework.",
+  "keywords": [
+    "yii2",
+    "extension",
+    "redactor",
+    "WYSIWYG",
+    "html editor",
+    "imperavi"
+  ],
+  "type": "yii2-extension",
+  "license": "BSD-3-Clause",
+  "support": {
+    "issues": "https://github.com/sahilr2050/yii2-redactor-s3/issues?state=open",
+    "wiki": "http://www.yiidoc.com/wiki/",
+    "source": "https://github.com/sahilr2050/yii2-redactor-s3"
+  },
+  "authors": [
+    {
+      "name": "sahilr2050",
+      "email": "admin@seecoding.com",
+      "homepage": "https://seecoding.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "sahilr2050\\yii2-redactor-s3\\": "/"
+    }
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "yiisoft/yii2": "*"
+  }
+}
