@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor\actions;
+namespace Sahilr2050\RedactorS3\actions;
 
 use Yii;
 use yii\web\HttpException;

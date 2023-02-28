@@ -6,10 +6,10 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor\actions;
+namespace Sahilr2050\RedactorS3\actions;
 
 use Yii;
-use yii\redactor\models\ImageUploadModel;
+use Sahilr2050\RedactorS3\models\ImageUploadModel;
 
 /**
  * @author Nghia Nguyen <yiidevelop@hotmail.com>

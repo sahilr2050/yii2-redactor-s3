@@ -6,14 +6,10 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor\models;
+namespace Sahilr2050\RedactorS3\models;
 
 use Yii;
 
-/**
- * @author Nghia Nguyen <yiidevelop@hotmail.com>
- * @since 2.0
- */
 class ImageUploadModel extends FileUploadModel
 {
     public function rules()

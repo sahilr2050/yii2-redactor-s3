@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor\models;
+namespace Sahilr2050\RedactorS3\models;
 
 use Yii;
 use yii\helpers\Url;
@@ -14,10 +14,6 @@ use yii\web\UploadedFile;
 use yii\helpers\Inflector;
 use backend\components\aws\S3;
 
-/**
- * @author Nghia Nguyen <yiidevelop@hotmail.com>
- * @since 2.0
- */
 class FileUploadModel extends \yii\base\Model
 {
     /**
