@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor\controllers;
+namespace Sahilr2050\redactor\controllers;
 
 use yii\web\Response;
 
@@ -34,10 +34,10 @@ class UploadController extends \yii\web\Controller
     public function actions()
     {
         return [
-            'file' => 'yii\redactor\actions\FileUploadAction',
-            'image' => 'yii\redactor\actions\ImageUploadAction',
-            'image-json' => 'yii\redactor\actions\ImageManagerJsonAction',
-            'file-json' => 'yii\redactor\actions\FileManagerJsonAction',
+            'file' => 'Sahilr2050\redactor\actions\FileUploadAction',
+            'image' => 'Sahilr2050\redactor\actions\ImageUploadAction',
+            'image-json' => 'Sahilr2050\redactor\actions\ImageManagerJsonAction',
+            'file-json' => 'Sahilr2050\redactor\actions\FileManagerJsonAction',
         ];
     }
 

@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor\models;
+namespace Sahilr2050\redactor\models;
 
 use Yii;
 

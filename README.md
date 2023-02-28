@@ -33,7 +33,7 @@ Add to config file (config/web.php or common\config\main.php)
 
 ```
     'modules' => [
-        'redactor' => 'yii\redactor\RedactorModule',
+        'redactor' => 'Sahilr2050\redactor\RedactorModule',
     ],
 ```
 or if you want to change the upload directory.
@@ -43,7 +43,7 @@ default value `@webroot/uploads`
 ```
     'modules' => [
         'redactor' => [
-            'class' => 'yii\redactor\RedactorModule',
+            'class' => 'Sahilr2050\redactor\RedactorModule',
             'uploadDir' => '@webroot/path/to/uploadfolder',
             'uploadUrl' => '@web/path/to/uploadfolder',
             'imageAllowExtensions'=>['jpg','png','gif']
@@ -58,13 +58,13 @@ reference: [Protect Your Uploads Folder with .htaccess](http://tomolivercv.wordp
 Config view/form
 
 ```
-<?= $form->field($model, 'body')->widget(\yii\redactor\widgets\Redactor::className()) ?>
+<?= $form->field($model, 'body')->widget(\Sahilr2050\redactor\widgets\Redactor::className()) ?>
 ```
 
 or not use ActiveField
 
 ```
-<?= \yii\redactor\widgets\Redactor::widget([
+<?= \Sahilr2050\redactor\widgets\Redactor::widget([
     'model' => $model,
     'attribute' => 'body'
 ]) ?>
@@ -72,7 +72,7 @@ or not use ActiveField
 or config advanced redactor reference [Docs](http://imperavi.com/redactor/docs/)
 
 ```
-<?= $form->field($model, 'body')->widget(\yii\redactor\widgets\Redactor::className(), [
+<?= $form->field($model, 'body')->widget(\Sahilr2050\redactor\widgets\Redactor::className(), [
     'clientOptions' => [
         'imageManagerJson' => ['/redactor/upload/image-json'],
         'imageUpload' => ['/redactor/upload/image'],

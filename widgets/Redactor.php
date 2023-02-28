@@ -6,12 +6,12 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor\widgets;
+namespace Sahilr2050\redactor\widgets;
 
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\Url;
-use yii\redactor\RedactorModule;
+use Sahilr2050\redactor\RedactorModule;
 use yii\widgets\InputWidget;
 use yii\helpers\Html;
 use yii\helpers\Json;
@@ -26,7 +26,7 @@ use yii\helpers\ArrayHelper;
 
 /**
  * Class Redactor
- * @package yii\redactor\widgets
+ * @package Sahilr2050\redactor\widgets
  * @property AssetBundle $assetBundle
  * @property string $sourcePath
  * @property RedactorModule $module

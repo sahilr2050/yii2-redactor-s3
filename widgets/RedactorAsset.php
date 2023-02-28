@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor\widgets;
+namespace Sahilr2050\redactor\widgets;
 
 /**
  * @author Nghia Nguyen <yiidevelop@hotmail.com>

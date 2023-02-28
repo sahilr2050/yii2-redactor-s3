@@ -1,10 +1,10 @@
 <?php
 
-namespace yii\redactor\actions;
+namespace Sahilr2050\redactor\actions;
 
 use Yii;
 use yii\base\Action;
-use yii\redactor\models\FileUploadModel;
+use Sahilr2050\redactor\models\FileUploadModel;
 
 /**
  * @author Nghia Nguyen <yiidevelop@hotmail.com>

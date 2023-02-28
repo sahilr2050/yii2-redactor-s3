@@ -6,7 +6,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
-namespace yii\redactor;
+namespace Sahilr2050\redactor;
 
 use Yii;
 use yii\base\InvalidConfigException;
@@ -19,7 +19,7 @@ use yii\helpers\Url;
  */
 class RedactorModule extends \yii\base\Module
 {
-    public $controllerNamespace = 'yii\redactor\controllers';
+    public $controllerNamespace = 'Sahilr2050\redactor\controllers';
     public $defaultRoute = 'upload';
     public $uploadDir = '@webroot/uploads';
     public $uploadUrl = '@web/uploads';
