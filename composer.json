@@ -1,6 +1,7 @@
 {
   "name": "sahilr2050/yii2-redactor-s3",
   "description": "Extension redactor for Yii2 Framework.",
+  "version": "1.0.0",
   "keywords": [
     "yii2",
     "extension",
