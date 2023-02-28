@@ -4,7 +4,9 @@ Modifying for own use, Do not use this in your project. I can make a change acco
 
 yii2-redactor
 =============
-Extension redactor for Yii2 Framework.
+This is a clone and modified version of [Yii2-Redactor](https://github.com/yiidoc/yii2-redactor)
+
+Extension redactor for Yii2 Framework. 
 
 Installation
 ------------
@@ -14,12 +16,12 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist yiidoc/yii2-redactor "*"
+composer require --prefer-dist sahilr2050/yii2-redactor-s3 "*"
 ```
 
  or
 ```
- "yiidoc/yii2-redactor": "*"
+ "sahilr2050/yii2-redactor-s3": "*"
 ```
 
 to the require section of your composer.json.
@@ -82,6 +84,6 @@ or config advanced redactor reference [Docs](http://imperavi.com/redactor/docs/)
 ```
 
 Bummer! i was tested on my project but not have many time to write document on file and usage.
-If you have problem please create a [issue](https://github.com/yiidoc/yii2-redactor/issues)
+If you have problem please create a [issue](https://github.com/sahilr2050/yii2-redactor-s3/issues)
 
 Thanks!
