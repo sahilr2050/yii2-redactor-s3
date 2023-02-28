@@ -14,8 +14,8 @@ use yii\helpers\FileHelper;
 use yii\helpers\Url;
 
 /**
- * @author Nghia Nguyen <yiidevelop@hotmail.com>
- * @since 2.0
+ * @author Sahil P <admin@seecoding.com>
+ * @since 1.0
  */
 class RedactorModule extends \yii\base\Module
 {

@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 5/14/15
- * Time: 12:42 AM
- */
-
 namespace Sahilr2050\redactor\actions;
-
 
 use yii\base\Action;
 use yii\helpers\FileHelper;

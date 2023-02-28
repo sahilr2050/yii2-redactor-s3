@@ -10,10 +10,6 @@ namespace Sahilr2050\redactor\models;
 
 use Yii;
 
-/**
- * @author Nghia Nguyen <yiidevelop@hotmail.com>
- * @since 2.0
- */
 class ImageUploadModel extends FileUploadModel
 {
     public function rules()

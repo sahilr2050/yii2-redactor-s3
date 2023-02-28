@@ -10,10 +10,6 @@ namespace Sahilr2050\redactor\controllers;
 
 use yii\web\Response;
 
-/**
- * @author Nghia Nguyen <yiidevelop@hotmail.com>
- * @since 2.0
- */
 class UploadController extends \yii\web\Controller
 {
 
