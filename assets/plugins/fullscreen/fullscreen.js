@@ -1,1 +1,111 @@
-!function(i){i.add("plugin","fullscreen",{translations:{en:{fullscreen:"Fullscreen"}},init:function(t){this.app=t,this.opts=t.opts,this.lang=t.lang,this.$win=t.$win,this.$doc=t.$doc,this.$body=t.$body,this.editor=t.editor,this.toolbar=t.toolbar,this.container=t.container,this.selection=t.selection,this.isOpen=!1,this.docScroll=0},start:function(){var t={title:this.lang.get("fullscreen"),api:"plugin.fullscreen.toggle"};this.toolbar.addButton("fullscreen",t).setIcon('<i class="re-icon-expand"></i>'),this.$target=this.toolbar.isTarget()?this.toolbar.getTargetElement():this.$body,this.opts.fullscreen&&this.toggle()},toggle:function(){return this.isOpen?this.close():this.open()},open:function(){this.docScroll=this.$doc.scrollTop(),this._createPlacemarker(),this.selection.save();var t=this.container.getElement(),e=this.editor.getElement(),s=this.toolbar.isTarget()?i.dom("body, html"):this.$target;this.opts.toolbarExternal&&this._buildInternalToolbar(),this.$target.prepend(t),this.$target.addClass("redactor-body-fullscreen"),t.addClass("redactor-box-fullscreen"),this.isTarget&&t.addClass("redactor-box-fullscreen-target"),s.css("overflow","hidden"),this.opts.maxHeight&&e.css("max-height",""),this.opts.minHeight&&e.css("min-height",""),this._resize(),this.$win.on("resize.redactor-plugin-fullscreen",this._resize.bind(this)),this.$doc.scrollTop(0),this.toolbar.getButton("fullscreen").setIcon('<i class="re-icon-retract"></i>'),this.selection.restore(),this.isOpen=!0,this.opts.zindex=1051,window.jQuery&&window.jQuery(document).off("focusin.modal")},close:function(){this.isOpen=!1,this.opts.zindex=!1,this.selection.save();var t=this.container.getElement(),e=this.editor.getElement(),s=i.dom("body, html");this.opts.toolbarExternal&&this._buildExternalToolbar(),this.$target.removeClass("redactor-body-fullscreen"),this.$win.off("resize.redactor-plugin-fullscreen"),s.css("overflow",""),t.removeClass("redactor-box-fullscreen redactor-box-fullscreen-target"),e.css("height","auto"),this.opts.minHeight&&e.css("minHeight",this.opts.minHeight),this.opts.maxHeight&&e.css("maxHeight",this.opts.maxHeight),this.toolbar.getButton("fullscreen").setIcon('<i class="re-icon-expand"></i>'),this._removePlacemarker(t),this.selection.restore(),this.$doc.scrollTop(this.docScroll)},_resize:function(){var t=this.toolbar.getElement(),e=this.editor.getElement(),s=this.$win.height()-t.height();e.height(s)},_buildInternalToolbar:function(){var t=this.toolbar.getWrapper(),e=this.toolbar.getElement();t.addClass("redactor-toolbar-wrapper"),t.append(e),e.removeClass("redactor-toolbar-external"),$container.prepend(t)},_buildExternalToolbar:function(){var t=this.toolbar.getWrapper(),e=this.toolbar.getElement();this.$external=i.dom(this.opts.toolbarExternal),e.addClass("redactor-toolbar-external"),this.$external.append(e),t.remove()},_createPlacemarker:function(){var t=this.container.getElement();this.$placemarker=i.dom("<span />"),t.after(this.$placemarker)},_removePlacemarker:function(t){this.$placemarker.before(t),this.$placemarker.remove()}})}(Redactor);
+if (!RedactorPlugins) var RedactorPlugins = {};
+
+(function ($) {
+    RedactorPlugins.fullscreen = function () {
+        return {
+            init: function () {
+                this.fullscreen.isOpen = false;
+
+                var button = this.button.add('fullscreen', 'Fullscreen');
+                this.button.addCallback(button, this.fullscreen.toggle);
+
+                if (this.opts.fullscreen) this.fullscreen.toggle();
+            },
+            enable: function () {
+                this.button.changeIcon('fullscreen', 'normalscreen');
+                this.button.setActive('fullscreen');
+                this.fullscreen.isOpen = true;
+
+                if (this.opts.toolbarExternal) {
+                    this.fullscreen.toolcss = {};
+                    this.fullscreen.boxcss = {};
+                    this.fullscreen.toolcss.width = this.$toolbar.css('width');
+                    this.fullscreen.toolcss.top = this.$toolbar.css('top');
+                    this.fullscreen.toolcss.position = this.$toolbar.css('position');
+                    this.fullscreen.boxcss.top = this.$box.css('top');
+                }
+
+                this.fullscreen.height = this.$editor.height();
+
+                if (this.opts.maxHeight) this.$editor.css('max-height', '');
+                if (this.opts.minHeight) this.$editor.css('min-height', '');
+
+                if (!this.$fullscreenPlaceholder) this.$fullscreenPlaceholder = $('<div/>');
+                this.$fullscreenPlaceholder.insertAfter(this.$box);
+
+                this.$box.appendTo(document.body);
+
+                this.$box.addClass('redactor-box-fullscreen');
+                $('body, html').css('overflow', 'hidden');
+
+                this.fullscreen.resize();
+                $(window).on('resize.redactor.fullscreen', $.proxy(this.fullscreen.resize, this));
+                $(document).scrollTop(0, 0);
+
+                $('.redactor-toolbar-tooltip').hide();
+                this.$editor.focus();
+                this.observe.load();
+            },
+            disable: function () {
+                this.button.removeIcon('fullscreen', 'normalscreen');
+                this.button.setInactive('fullscreen');
+                this.fullscreen.isOpen = false;
+
+                $(window).off('resize.redactor.fullscreen');
+                $('body, html').css('overflow', '');
+
+                this.$box.insertBefore(this.$fullscreenPlaceholder);
+                this.$fullscreenPlaceholder.remove();
+
+                this.$box.removeClass('redactor-box-fullscreen').css({width: 'auto', height: 'auto'});
+
+                this.code.sync();
+
+                if (this.opts.toolbarExternal) {
+                    this.$box.css('top', this.fullscreen.boxcss.top);
+                    this.$toolbar.css({
+                        'width': this.fullscreen.toolcss.width,
+                        'top': this.fullscreen.toolcss.top,
+                        'position': this.fullscreen.toolcss.position
+                    });
+                }
+
+                if (this.opts.minHeight) this.$editor.css('minHeight', this.opts.minHeight);
+                if (this.opts.maxHeight) this.$editor.css('maxHeight', this.opts.maxHeight);
+
+                $('.redactor-toolbar-tooltip').hide();
+                this.$editor.css('height', 'auto');
+                this.$editor.focus();
+                this.observe.load();
+            },
+            toggle: function () {
+                if (this.fullscreen.isOpen) {
+                    this.fullscreen.disable();
+                }
+                else {
+                    this.fullscreen.enable();
+                }
+            },
+            resize: function () {
+                if (!this.fullscreen.isOpen) return;
+
+                var toolbarHeight = this.$toolbar.height();
+
+                var height = $(window).height() - toolbarHeight - this.utils.normalize(this.$editor.css('padding-top')) - this.utils.normalize(this.$editor.css('padding-bottom'));
+                this.$box.width($(window).width()).height(height);
+
+                if (this.opts.toolbarExternal) {
+                    this.$toolbar.css({
+                        'top': '0px',
+                        'position': 'absolute',
+                        'width': '100%'
+                    });
+
+                    this.$box.css('top', toolbarHeight + 'px');
+                }
+
+                this.$editor.height(height);
+            }
+        };
+    };
+})(jQuery);

@@ -1,1 +1,44 @@
-!function(d){d.add("plugin","definedlinks",{init:function(t){this.app=t,this.opts=t.opts,this.component=t.component,this.links=[]},onmodal:{link:{open:function(t,i){this.opts.definedlinks&&(this.$modal=t,this.$form=i,this._load())}}},_load:function(){"object"==typeof this.opts.definedlinks?this._build(this.opts.definedlinks):d.ajax.get({url:this.opts.definedlinks,success:this._build.bind(this)})},_build:function(t){if(0===(s=this.$modal.find("#redactor-defined-links")).length){var i=this.$modal.getBody(),n=d.dom('<div class="form-item" />'),s=d.dom('<select id="redactor-defined-links" />');n.append(s),i.prepend(n)}for(var e in this.links=[],s.html(""),s.off("change"),t)if(t.hasOwnProperty(e)&&"object"==typeof t[e]){this.links[e]=t[e];var o=d.dom("<option>");o.val(e),o.html(t[e].name),s.append(o)}s.on("change",this._select.bind(this))},_select:function(t){var i=this.$form.getData(),n=d.dom(t.target).val(),s={text:"",url:""};"0"!==n&&(s.text=this.links[n].name,s.url=this.links[n].url),""!==i.text&&(s={url:s.url}),this.$form.setData(s)}})}(Redactor);
+if (!RedactorPlugins) var RedactorPlugins = {};
+(function ($) {
+    RedactorPlugins.definedlinks = function () {
+        return {
+            init: function () {
+                if (!this.opts.definedLinks) return;
+
+                this.modal.addCallback('link', $.proxy(this.definedlinks.load, this));
+
+            },
+            load: function () {
+                var $select = $('<select id="redactor-defined-links" />');
+                $('#redactor-modal-link-insert').prepend($select);
+
+                this.definedlinks.storage = {};
+
+                $.getJSON(this.opts.definedLinks, $.proxy(function (data) {
+                    $.each(data, $.proxy(function (key, val) {
+                        this.definedlinks.storage[key] = val;
+                        $select.append($('<option>').val(key).html(val.name));
+
+                    }, this));
+
+                    $select.on('change', $.proxy(this.definedlinks.select, this));
+
+                }, this));
+
+            },
+            select: function (e) {
+                var key = $(e.target).val();
+                var name = '', url = '';
+                if (key !== 0) {
+                    name = this.definedlinks.storage[key].name;
+                    url = this.definedlinks.storage[key].url;
+                }
+
+                $('#redactor-link-url').val(url);
+
+                var $el = $('#redactor-link-url-text');
+                if ($el.val() === '') $el.val(name);
+            }
+        };
+    };
+})(jQuery);

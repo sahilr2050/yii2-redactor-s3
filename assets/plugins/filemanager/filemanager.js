@@ -1,1 +1,57 @@
-!function(r){r.add("plugin","filemanager",{translations:{en:{choose:"Choose"}},init:function(a){this.app=a,this.lang=a.lang,this.opts=a.opts},onmodal:{file:{open:function(a,t){this.opts.fileManagerJson&&this._load(a)}}},_load:function(a){var t=a.getBody();this.$box=r.dom("<div>"),this.$box.attr("data-title",this.lang.get("choose")),this.$box.addClass("redactor-modal-tab"),this.$box.hide(),this.$box.css({overflow:"auto",height:"300px","line-height":1}),t.append(this.$box),r.ajax.get({url:this.opts.fileManagerJson,success:this._parse.bind(this)})},_parse:function(a){var t=r.dom('<ul id="redactor-filemanager-list">');for(var e in a){var i=a[e];if("object"==typeof i){var s=r.dom("<li>"),o=r.dom("<a>");o.attr("href","#"),o.addClass("redactor-file-manager-link"),o.attr("data-params",encodeURI(JSON.stringify(i))),o.text(i.title||i.name),o.on("click",this._insert.bind(this));var n=r.dom("<span>");n.addClass("r-file-name"),n.text(i.name),o.append(n);var d=r.dom("<span>");d.addClass("r-file-size"),d.text("("+i.size+")"),o.append(d),s.append(o),t.append(s)}}this.$box.append(t)},_insert:function(a){a.preventDefault();var t=r.dom(a.target).closest(".redactor-file-manager-link"),e=JSON.parse(decodeURI(t.attr("data-params")));this.app.api("module.file.insert",{file:e})}})}(Redactor);
+if (!RedactorPlugins) var RedactorPlugins = {};
+
+(function ($) {
+    RedactorPlugins.filemanager = function () {
+        return {
+            init: function () {
+                if (!this.opts.fileManagerJson) return;
+
+                this.modal.addCallback('file', this.filemanager.load);
+            },
+            load: function () {
+                var $modal = this.modal.getModal();
+
+                this.modal.createTabber($modal);
+                this.modal.addTab(1, 'Upload', 'active');
+                this.modal.addTab(2, 'Choose');
+
+                $('#redactor-modal-file-upload-box').addClass('redactor-tab redactor-tab1');
+
+                var $box = $('<div id="redactor-file-manager-box" style="overflow: auto; height: 300px;" class="redactor-tab redactor-tab2">').hide();
+                $modal.append($box);
+
+
+                $.ajax({
+                    dataType: "json",
+                    cache: false,
+                    url: this.opts.fileManagerJson,
+                    success: $.proxy(function (data) {
+                        var ul = $('<ul id="redactor-modal-list">');
+                        $.each(data, $.proxy(function (key, val) {
+                            var a = $('<a href="#" title="' + val.title + '" rel="' + val.link + '" class="redactor-file-manager-link">' + val.title + ' <span style="font-size: 11px; color: #888;">' + val.name + '</span> <span style="position: absolute; right: 10px; font-size: 11px; color: #888;">(' + val.size + ')</span></a>');
+                            var li = $('<li />');
+
+                            a.on('click', $.proxy(this.filemanager.insert, this));
+
+                            li.append(a);
+                            ul.append(li);
+
+                        }, this));
+
+                        $('#redactor-file-manager-box').append(ul);
+
+
+                    }, this)
+                });
+
+            },
+            insert: function (e) {
+                e.preventDefault();
+
+                var $target = $(e.target).closest('.redactor-file-manager-link');
+
+                this.file.insert('<a href="' + $target.attr('rel') + '">' + $target.attr('title') + '</a>');
+            }
+        };
+    };
+})(jQuery);

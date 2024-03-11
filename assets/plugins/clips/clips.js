@@ -1,1 +1,54 @@
-!function(a){a.add("plugin","clips",{translations:{en:{clips:"Clips","clips-select":"Please, select a clip"}},modals:{clips:""},init:function(i){this.app=i,this.opts=i.opts,this.lang=i.lang,this.toolbar=i.toolbar,this.insertion=i.insertion},onmodal:{clips:{open:function(i){this._build(i)}}},start:function(){if(this.opts.clips){var i={title:this.lang.get("clips"),api:"plugin.clips.open"};this.toolbar.addButton("clips",i).setIcon('<i class="re-icon-clips"></i>')}},open:function(i){var t={title:this.lang.get("clips"),width:"600px",name:"clips"};this.app.api("module.modal.build",t)},_build:function(i){var t=i.getBody(),s=this._buildLabel(),l=this._buildList();this._buildItems(l),t.html(""),t.append(s),t.append(l)},_buildLabel:function(){var i=a.dom("<label>");return i.html(this.lang.parse("## clips-select ##:")),i},_buildList:function(){var i=a.dom("<ul>");return i.addClass("redactor-clips-list"),i},_buildItems:function(i){for(var t=this.opts.clips,s=0;s<t.length;s++){var l=a.dom("<li>"),n=a.dom("<span>");n.attr("data-index",s),n.html(t[s][0]),n.on("click",this._insert.bind(this)),l.append(n),i.append(l)}},_insert:function(i){var t=a.dom(i.target).attr("data-index"),s=this.opts.clips[t][1];this.app.api("module.modal.close"),this.insertion.insertHtml(s)}})}(Redactor);
+if (!RedactorPlugins) var RedactorPlugins = {};
+
+RedactorPlugins.clips = function () {
+    return {
+        init: function () {
+            var items = [
+                ['Lorem ipsum...', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'],
+                ['Red label', '<span class="label-red">Label</span>']
+            ];
+
+            this.clips.template = $('<ul id="redactor-modal-list">');
+
+            for (var i = 0; i < items.length; i++) {
+                var li = $('<li>');
+                var a = $('<a href="#" class="redactor-clip-link">').text(items[i][0]);
+                var div = $('<div class="redactor-clip">').hide().html(items[i][1]);
+
+                li.append(a);
+                li.append(div);
+                this.clips.template.append(li);
+            }
+
+            this.modal.addTemplate('clips', '<section>' + this.utils.getOuterHtml(this.clips.template) + '</section>');
+
+            var button = this.button.add('clips', 'Clips');
+            this.button.addCallback(button, this.clips.show);
+
+        },
+        show: function () {
+            this.modal.load('clips', 'Insert Clips', 400);
+
+            this.modal.createCancelButton();
+
+            $('#redactor-modal-list').find('.redactor-clip-link').each($.proxy(this.clips.load, this));
+
+            this.selection.save();
+            this.modal.show();
+        },
+        load: function (i, s) {
+            $(s).on('click', $.proxy(function (e) {
+                e.preventDefault();
+                this.clips.insert($(s).next().html());
+
+            }, this));
+        },
+        insert: function (html) {
+            this.selection.restore();
+            this.insert.html(html);
+            this.modal.close();
+            this.observe.load();
+        }
+    };
+};
+
