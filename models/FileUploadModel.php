@@ -34,7 +34,7 @@ class FileUploadModel extends \yii\base\Model
         if ($this->validate()) {
             $structure = Yii::$app->params['fileUploadUrl'].Yii::$app->session->get('rtoid');
             $s3client = new S3;
-            $uploadedPath = $s3client->uploadSingleFile($structure, $this->file);
+            $uploadedPath = $s3client->uploadSingleFile($structure, $this->file, 'public-read');
             if ($uploadedPath) {
                 return [
                     'filelink' => Yii::$app->params['AWS_EFFECTIVE_URL'].$uploadedPath,
